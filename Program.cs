@@ -45,7 +45,10 @@ namespace service_bus_test
                 LockDuration = new TimeSpan(0, 0, 20),
                 MaxDeliveryCount = 10
             };
-            await client.CreateSubscriptionAsync(subscriptionDescription);
+            var subExist = await client.SubscriptionExistsAsync(topicName, subscriptionName);
+            if (!subExist){
+                await client.CreateSubscriptionAsync(subscriptionDescription);
+            }
         }
 
         static void RegisterOnMessageHandlerAndReceiveMessages()
